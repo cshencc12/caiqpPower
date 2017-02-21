@@ -1,0 +1,81 @@
+package com.caiqp.text;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Invoices {
+
+	public static List<Map<String,Integer>> w1;
+	public static List<Map<String,Integer>> w2;
+	public static List<Map<String,Integer>> w3;
+	
+	static{
+		w1=new ArrayList<Map<String,Integer>>();
+		Map<String,Integer> w1Good=new HashMap<String,Integer>();
+		w1Good.put("A", 1);
+		w1Good.put("B", 2);
+		w1Good.put("C", 2);
+		w1.add(w1Good);
+		w2=new ArrayList<Map<String,Integer>>();
+		Map<String,Integer> w2Good=new HashMap<String,Integer>();
+		w2Good.put("A", 2);
+		w2Good.put("B", 1);
+		w2Good.put("C", 2);
+		w2.add(w2Good);
+		w3=new ArrayList<Map<String,Integer>>();
+		Map<String,Integer> w3Good=new HashMap<String,Integer>();
+		w3Good.put("A", 1);
+		w3Good.put("B", 3);
+		w3Good.put("C", 1);
+		w3.add(w3Good);
+	}
+	
+	public static void fun(String goodType,int goodNum){
+		int w3Count=w3.get(0).get(goodType);
+		int w2Count=w2.get(0).get(goodType);
+		int w1Count=w1.get(0).get(goodType);
+		//在不考虑优先级的时候
+		if(w3Count==goodNum){//如果w3中正好有就直接输出
+			System.out.println(goodType+"--"+goodNum+"--w3");
+		}else if(w2Count==goodNum){
+			System.out.println(goodType+"--"+goodNum+"--w2");
+		}else if(w1Count==goodNum){
+			System.out.println(goodType+"--"+goodNum+"--w1");
+		}
+		System.out.println();
+		System.out.println();
+		//凑单
+		int allCount=w3Count;
+		if(w3Count>goodNum){
+			System.out.println(goodType+"--"+goodNum+"--w3");
+		}
+		if(allCount<goodNum){
+			for(int a=0;a<w2Count;a++){
+				allCount+=1;
+				if(allCount==goodNum){
+					System.out.println(goodType+"--"+w3Count+"--w3"+"~~~~~"+goodType+"--"+(a+1)+"--w2");
+					break;
+				}
+			}
+		}
+		if(allCount<goodNum){
+			for(int a=0;a<w1Count;a++){
+				allCount+=1;
+				if(allCount==goodNum){
+					System.out.println(goodType+"--"+w3Count+"--w3"+"~~~~~"+goodType+"--"+w2Count+"--w2~~~~~"+goodType+"--"+(a+1)+"--w1");
+					break;
+				}
+			}
+		}
+		if(allCount<goodNum){
+			System.out.println("缺货");
+		}
+		
+	}
+	
+	public static void main(String args[]){
+		fun("B",5);
+	}
+}
